@@ -10,6 +10,7 @@ class ComposeSalad extends React.Component {
       extras : [],
       dressing : "",
       price : 0,
+      //TODO byta arrayerna mot maps
     };
     this.handleSelect = this.handleSelect.bind(this);
     this.handleCheckbox = this.handleCheckbox.bind(this);
@@ -37,7 +38,7 @@ class ComposeSalad extends React.Component {
   handleCheckbox(event){
     let name = event.target.getAttribute('name');
     let id = event.target.getAttribute('id');
-      
+    
       if(event.target.checked){
         this.setState({
           [name] : [...this.state[name], id],
@@ -85,7 +86,7 @@ class ComposeSalad extends React.Component {
       name => inventory[name].dressing
     );
     return (
-      <div className="container">
+      <div className="container"> //TODO lägg till key i alla mapz
         <form onSubmit={this.handleSubmit} noValidate>
           <h4>Välj bas</h4>
           <select
@@ -100,12 +101,12 @@ class ComposeSalad extends React.Component {
           </select>
           <h4>Välj protein</h4>
             {proteins.map(name => (
-              <div>
+              <div key={name}>
                 <label>
                   <input id = {name}
                          name = "proteins" 
                          type = "checkbox"
-                         checked = {this.state.proteins.includes(name) || false}
+                         checked = {this.state.proteins.includes(name) || false} //TODO includes behövs ej när man använder map
                          onChange = {e => this.handleCheckbox(e)}
                   />
                   {' '+name+' +'+inventory[name].price+'kr'}
@@ -115,9 +116,9 @@ class ComposeSalad extends React.Component {
             ))}
           <h4>Välj extras</h4>
             {extras.map(name => (
-              <div>
+              <div key={name}>
                 <label>
-                  <input id = {name}
+                  <input id = {name} //TODO kom ihåg att id ska vara unikt om man har två composesalad
                          name = "extras"
                          type = "checkbox"
                          checked = {this.state.extras.includes(name) || false}

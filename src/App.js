@@ -14,7 +14,8 @@ class App extends React.Component {
     this.addSalad = this.addSalad.bind(this);
   }
   
-  addSalad = (salad) => {
+  addSalad = (salad) => { 
+    //TODO annan setState() för att undvika kapplöpning
     this.setState({order : [...this.state.order, salad]});
   }
   
