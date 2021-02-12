@@ -9,7 +9,7 @@ class ComposeSalad extends React.Component {
       proteins : [],
       extras : [],
       dressing : "",
-      price : 0,
+      price : 0
       //TODO byta arrayerna mot maps
     };
     this.handleSelect = this.handleSelect.bind(this);
@@ -22,7 +22,8 @@ class ComposeSalad extends React.Component {
       foundation : "",
       proteins : [],
       extras : [],
-      dressing : ""
+      dressing : "",
+      price : 0
     });
   }
   
@@ -55,16 +56,22 @@ class ComposeSalad extends React.Component {
 
   handleSubmit(event){
     event.preventDefault();
+    
+    if(event.target.checkValidity() === true){
+      let salad = new Salad();
 
-    let salad = new Salad();
-
-    salad.addOption(this.state.foundation, 1);
-    Object.values(this.state.proteins).forEach(protein => salad.addOption(protein));
-    Object.values(this.state.extras).forEach(extra => salad.addOption(extra));
-    salad.addOption(this.state.dressing, 1);
+      salad.addOption(this.state.foundation, 1);
+      Object.values(this.state.proteins).forEach(protein => salad.addOption(protein));
+      Object.values(this.state.extras).forEach(extra => salad.addOption(extra));
+      salad.addOption(this.state.dressing, 1);
   
-    this.props.addSalad(salad);
-    this.clearForm();
+      this.props.addSalad(salad);
+      this.clearForm();
+      this.props.history.push("/view-order");
+    }
+    else{
+      event.target.classList.add("was-validated");
+    }
   }
 
   render() {
@@ -86,19 +93,28 @@ class ComposeSalad extends React.Component {
       name => inventory[name].dressing
     );
     return (
-      <div className="container"> //TODO lägg till key i alla mapz
+      <div className="container"> 
         <form onSubmit={this.handleSubmit} noValidate>
           <h4>Välj bas</h4>
-          <select
-            value = {this.state.foundation}
-            name = "foundation"
-            onChange = {this.handleSelect}
-          >
-            <option value=""> Välj bas...</option>
-            {foundations.map(name => (
-              <option value={name}>{name}</option>
-            ))}
-          </select>
+          <div className="form-group">
+            <select required
+              className = "form-control"
+              value = {this.state.foundation}
+              name = "foundation"
+              onChange = {this.handleSelect}
+            >
+              <option value=""> Välj bas...</option>
+              {foundations.map(name => (
+                <option key={name} 
+                        value={name}> 
+                        {name} 
+                </option>
+              ))}
+            </select>
+            <div className="invalid-feedback">
+              Välj en bas!
+            </div>
+          </div>
           <h4>Välj protein</h4>
             {proteins.map(name => (
               <div key={name}>
@@ -118,7 +134,7 @@ class ComposeSalad extends React.Component {
             {extras.map(name => (
               <div key={name}>
                 <label>
-                  <input id = {name} //TODO kom ihåg att id ska vara unikt om man har två composesalad
+                  <input id = {name}
                          name = "extras"
                          type = "checkbox"
                          checked = {this.state.extras.includes(name) || false}
@@ -130,16 +146,26 @@ class ComposeSalad extends React.Component {
               </div>
             ))}
           <h4>Välj dressing</h4>
-          <select
-            value = {this.state.dressing}
-            name  = "dressing"
-            onChange = {this.handleSelect}
-          >
-            <option value="">Välj dressing...</option>
-            {dressings.map(name => (
-              <option value={name}>{name}</option>
-            ))}
-          </select>
+          <div className="form-group">
+            <select required
+              className="form-control"
+              value = {this.state.dressing}
+              name  = "dressing"
+              onChange = {this.handleSelect}
+            >
+              <option value="">Välj dressing...</option>
+              {dressings.map(name => (
+                <option 
+                        key={name}
+                        value={name}>
+                        {name}
+                </option>
+              ))}
+            </select>
+            <div className="invalid-feedback">
+              Välj dressing!
+            </div>
+          </div>
           <br />
           <br />
           <input type="submit" value="Lägg till"/>

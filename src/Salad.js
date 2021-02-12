@@ -1,8 +1,3 @@
-//'use strict';
-//const imported = require("./inventory.ES6.js");
-//let inventory = imported.inventory;
-//let options = Object.keys(inventory);
-
 import inventory from "./inventory.ES6.js";
 let options = Object.keys(inventory);
 
@@ -35,16 +30,22 @@ class Salad{
     this.options.push({...inventory[option]}) 
   } 
   
-  removeOption(option) { this.options = this.options.filter(opt => opt != option); }
+  removeOption(option) { this.options = this.options.filter(opt => opt !== option); }
 
   price(){ return this.options.reduce((acc, opt) => acc + Number(opt['price']), 0) }
 
   toString(){
-    let proteinString = this.proteins.reduce((acc, prot) => acc + ", " + prot);
-    let extraString = this.extras.reduce((acc, extra) => acc + ", " + extra);
-    return( this.foundation + ", " + 
-            proteinString + ", " + 
-            extraString + ", " + 
+    let proteinString = "";
+    let extraString = "";
+    if(this.proteins.length !== 0){
+       proteinString = this.proteins.reduce((acc, prot) => acc + ", " + prot) + ", ";
+    }
+    if(this.extras.length !== 0){
+       extraString = this.extras.reduce((acc, extra) => acc + ", " + extra) + ", ";
+    }
+    return( this.foundation + ", " +
+            proteinString +
+            extraString +
             this.dressing + " " + 
             this.price() + "kr"
           );
