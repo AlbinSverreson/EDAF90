@@ -58,14 +58,22 @@ class ComposeSalad extends React.Component {
     event.preventDefault();
     
     if(event.target.checkValidity() === true){
-      let salad = new Salad();
+      //let salad = new Salad();
 
-      salad.addOption(this.state.foundation, 1);
-      Object.values(this.state.proteins).forEach(protein => salad.addOption(protein));
-      Object.values(this.state.extras).forEach(extra => salad.addOption(extra));
-      salad.addOption(this.state.dressing, 1);
+      //salad.addOption(this.state.foundation, 1);
+      //Object.values(this.state.proteins).forEach(protein => salad.addOption(protein));
+      //Object.values(this.state.extras).forEach(extra => salad.addOption(extra));
+      //salad.addOption(this.state.dressing, 1);
+
+      let newSalad = {
+        ID: Salad.newId(),
+        foundation: this.state.foundation,
+        proteins: this.state.proteins,
+        extras: this.state.extras,
+        dressing: this.state.dressing
+      }
   
-      this.props.addSalad(salad);
+      this.props.addSalad(newSalad);
       this.clearForm();
       this.props.history.push("/view-order");
     }

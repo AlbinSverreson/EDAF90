@@ -10,7 +10,11 @@ class Order extends React.Component{
         <h4> Order </h4>
         <ul>
           {this.props.order.map(salad => (
-            <li key={salad.id}> {salad.id + ") " + salad.toString()} </li>
+            <li key={salad.ID}> {salad.ID + ") " 
+                                + salad.foundation + ", " 
+                                + salad.proteins + ", " 
+                                + salad.extras + ", " 
+                                + salad.dressing} </li>
           ))}
         </ul>
       </div>
